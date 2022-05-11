@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ post.titulo }}{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<style>
+  body {
+      font-family: "Roboto", sans-serif;
+      font-size: 18px;
+      background-color: #fdfdfd;
+  }
+
+  .head_text {
+      color: white;
+  }
+
+  .card {
+      box-shadow: 0 16px 48px #E3E7EB;
+  }
+</style>
+
+<header class="masthead">
+  <div class="overlay"></div>
+  <div class="container">
+      <div class="row">
+          <div class=" col-md-8 col-md-10 mx-auto">
+              <div class="site-heading">
+                  <h3 class=" site-heading my-4 mt-3 text-white"> Al mundo con una Valija </h3>
+                  <p class="text-light">Un Blog de Viajes y Mas..! &nbsp
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</header>
+<div class="container-fluid my-3">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+
+      <div class="card">
+        <h2 class="card-title text-center my-3">{{ post.titulo }}</h2>
+        <div class="text-muted text-center mb-3">
+          <h5 class="card-title text-center my-0">{{ post.subtitulo }}</h5>
+          <br>
+          <div>
+            Creado: {{ post.creado|date:"N j Y" }},
+            Ultima Actualizcion: Hace {{ post.actualizado|timesince }},
+            Por <a class="badge badge-secondary" href="#">{{ post.autor }}</a>
+          </div>
+          <div>
+          </div>
+        </div>
+        {% if post.imagen %}
+        <img class="card-img-top" src="{{ post.imagen.url }}" alt="{{ post.titulo }}">
+        {% endif %}
+        <div class="card-text mt-5 p-2">
+          {{ post.contenido|safe}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

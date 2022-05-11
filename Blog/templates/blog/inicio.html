@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header -->
+<style>
+  body {
+      font-family: "Roboto", sans-serif;
+      font-size: 18px;
+      background-color: #fdfdfd;
+  }
+
+  .head_text {
+      color: white;
+  }
+
+  .card {
+      box-shadow: 0 16px 48px #E3E7EB;
+  }
+</style>
+
+<header class="masthead">
+  <div class="overlay"></div>
+  <div class="container">
+      <div class="row">
+          <div class=" col-md-8 col-md-10 mx-auto">
+              <div class="site-heading">
+                  <h3 class=" site-heading my-4 mt-3 text-white"> Al mundo con una Valija </h3>
+                  <p class="text-light">Un Blog de Viajes y Mas..! &nbsp
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</header>
+
+<!-- Blog Entries Column -->
+<div class="container mt-5">
+
+  <div class="row">
+    {% for post in object_list %}
+    <div class="card col-lg-12 offset-lg-0 mb-5">
+      {% if post.imagen %}
+      <img class="card-img-top mt-3" src="{{ post.imagen.url }}" alt="{{ post.titulo }}">
+      {% endif %}
+      <div class="card-body">
+        <a href="{% url 'Post' post.id post.url %}">
+          <h2 class="card-title my-3">{{ post.titulo }} </h2>
+        </a>
+        <div class="text-muted mb-3">
+          <div>
+            <span>Creado: {{ post.creado|date:"N j Y" }} |</span>
+            <span>Actualizado: hace {{ post.actualizado|timesince }} |</span>
+            <span>Autor: {{ post.autor }}</span>
+          </div>
+        </div>
+        <p class="card-text">{{ post.contenido|truncatewords:20|safe }}</p>
+        <a class='btn btn-primary' href="{% url 'Post' post.id post.url %}">Leer Mas</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  <div class="row">
+    <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
+      <ul class="pagination">
+
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#"">Anterior</a>
+        </li>
+        {% endif %}
+  
+        {% for i in page_obj.paginator.page_range %}
+        <li class=" page-item {% if page_obj.number == i %}active{% endif %}">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+        </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Siguiente</a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </nav>
+  </div>
+  <!-- /Pagination -->
+
+</div>
+{% endblock %}
